@@ -1,0 +1,32 @@
+{
+  "name": "desk23",
+  "version": "1.0.0",
+  "description": "Remote Screen Sharing & control app",
+  "main": "main.js",
+   
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "author": "Vikash anand jha",
+  "license": "ISC",
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20",
+    "robotjs": "^0.6.0",
+    "screenshot-desktop": "^0.0.0-development",
+    "socket.io": "^4.6.0",
+    "socket.io-client": "^4.6.0"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.5",
+    "@electron-forge/maker-deb": "^6.0.5",
+    "@electron-forge/maker-rpm": "^6.0.5",
+    "@electron-forge/maker-squirrel": "^6.0.5",
+    "@electron-forge/maker-zip": "^6.0.5",
+    "electron": "^23.0.0"
+  }
+}

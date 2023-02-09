@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+body{
+    margin: 0px;
+    padding: 0px;
+}
+</style>
+<body>
+    
+    <script>
+         
+    </script>
+
+    <img id="screen" src="screen.jpg"  width="1920" height="1080" style="border:0px solid red; position:absolute;top: 0; left: 0;"/>
+    <canvas style="border:0px solid green; position:absolute;top: 0; left: 0;" width="1920" height="1080"     id="canvas"></canvas>
+
+    <script type="module">
+        import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
+      
+  const socket = io("http://192.168.0.101:3000");
+const room_id="test";
+
+  socket.emit("join-room",room_id,function(res){
+    console.log(res)
+  })
+
+  socket.on("screen", (data, callback) => {
+      //var buff=Buffer.from(data,"base64")
+      document.getElementById("screen").src="data:image/png;base64,"+data;
+
+
+      
+      console.log(data); // "world"
+      callback("got it");
+    });
+
+
+    var frame=document.getElementById("canvas");
+
+    frame.addEventListener("mousemove",function(e){
+        let x=e.pageX-frame.offsetLeft;
+        let y=e.pageY-frame.offsetTop;
+        socket.emit("control:mouse",{x,y},function(res){
+        console.log(res);
+    })
+
+
+    })
+    frame.addEventListener("drag",function(e){
+        let x=e.pageX-frame.offsetLeft;
+        let y=e.pageY-frame.offsetTop;
+        socket.emit("control:mouse",{x,y},function(res){
+        console.log(res);
+    })
+    })  
+    
+    frame.addEventListener("click",function(e){
+        let x=e.pageX-frame.offsetLeft;
+        let y=e.pageY-frame.offsetTop;
+        socket.emit("control:click",{x,y},function(res){
+        console.log(res);
+    })
+    })
+
+    window.addEventListener("keyup",function(e){
+        socket.emit("control:key",e.key,function(res){
+        console.log(res);
+    })
+    })
+
+
+
+    //listen for other sockets
+
+    socket.on("control:click", (data, callback) => {
+  
+
+        ctx.fillRect(data.x,data.y,5,5);
+  console.log("click from some client:"+data)
+
+    });
+
+   
+  
+</script>
+ <script>
+    var canvas = document.getElementById("canvas"); 
+
+//Then you can draw a point at (10,10) like this:
+
+var ctx = canvas.getContext("2d");
+
+ </script>
+</body>
+</html>
